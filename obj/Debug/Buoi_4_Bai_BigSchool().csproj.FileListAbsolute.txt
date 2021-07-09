@@ -106,3 +106,9 @@ E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\obj\Debug\Buoi_4_Bai_BigSchool().c
 E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\obj\Debug\Buoi_4_Bai_BigSchool().csproj.CopyComplete
 E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\obj\Debug\Buoi_4_Bai_BigSchool().dll
 E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\obj\Debug\Buoi_4_Bai_BigSchool().pdb
+E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\bin\System.Net.Http.Formatting.dll
+E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\bin\System.Web.Http.dll
+E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\bin\System.Web.Http.WebHost.dll
+E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\bin\System.Net.Http.Formatting.xml
+E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\bin\System.Web.Http.xml
+E:\TH-Lập Trình Web\Buoi_4_Bai_BigSchool()\bin\System.Web.Http.WebHost.xml

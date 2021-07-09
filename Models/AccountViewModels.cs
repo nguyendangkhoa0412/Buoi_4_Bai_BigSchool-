@@ -61,7 +61,7 @@ namespace Buoi_4_Bai_BigSchool__.Models
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
-
+   
     public class RegisterViewModel
     {
         [Required]

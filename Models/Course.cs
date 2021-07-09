@@ -9,6 +9,12 @@ namespace Buoi_4_Bai_BigSchool__.Models
     [Table("Course")]
     public partial class Course
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Course()
+        {
+            Attendances = new HashSet<Attendance>();
+        }
+        public string LecturerName;
         public int Id { get; set; }
 
         [Required]
@@ -18,15 +24,16 @@ namespace Buoi_4_Bai_BigSchool__.Models
         [Required]
         [StringLength(255)]
         public string Place { get; set; }
-        [Required]
-        [FutureDate]
+
         public DateTime DateTime { get; set; }
-       
+
         public int CategoryId { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendance> Attendances { get; set; }
+
         public virtual Category Category { get; set; }
-        public List<Category> ListCategory = new List<Category>();
-        public string name;
-       
+        public List<Category> ListCategory = new List<Category>(); 
+        public string Name;
     }
 }
