@@ -19,7 +19,10 @@ namespace Buoi_4_Bai_BigSchool__.Controllers
          
             if(context.Attendances.Any(p => p.Attendee == userID && p.CourseId == attendanceDto.Id))
             {
-                return BadRequest("The attendance already exists!");
+                //return BadRequest("The attendance already exists!");
+                context.Attendances.Remove(context.Attendances.SingleOrDefault(p => p.Attendee == userID && p.CourseId == attendanceDto.Id));
+                context.SaveChanges();
+                return Ok("cancel");
             }
             var attendance = new Attendance()
             {

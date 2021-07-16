@@ -14,7 +14,7 @@ namespace Buoi_4_Bai_BigSchool__.Models
         {
             Attendances = new HashSet<Attendance>();
         }
-        public string LecturerName;
+
         public int Id { get; set; }
 
         [Required]
@@ -33,7 +33,13 @@ namespace Buoi_4_Bai_BigSchool__.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
 
         public virtual Category Category { get; set; }
-        public List<Category> ListCategory = new List<Category>(); 
+        public string LectureName;
         public string Name;
+        public List<Category> ListCategory = new List<Category>();
+
+        public bool isLogin = false;
+        public bool isShowGoing = false;
+        public bool isShowFollow = false;
+
     }
 }

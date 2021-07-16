@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -49,7 +50,7 @@ namespace Buoi_4_Bai_BigSchool__.Controllers
             foreach(Attendance temp in listAttendances)
             {
                 Course objCourse = temp.Course;
-                objCourse.LecturerName = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()
+                objCourse.LectureName = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()
                     .FindById(objCourse.LecturerId).Name;
                 course.Add(objCourse);
             }
@@ -63,38 +64,59 @@ namespace Buoi_4_Bai_BigSchool__.Controllers
             var courses = context.Courses.Where(c => c.LecturerId == currentUser.Id && c.DateTime > DateTime.Now).ToList();
             foreach(Course i in courses)
             {
-                i.LecturerName = currentUser.Name;
+                i.LectureName = currentUser.Name;
             }
             return View(courses);   
         }
         public ActionResult Edit(int? id)
         {
             BigSchoolContext context = new BigSchoolContext();
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //Course course = context.Courses.Find(id);
+            //if (course == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //ViewBag.CategoryId = new SelectList(context.Categories, "Id", "Name", course.CategoryId);
+            //return View(course);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = context.Courses.Find(id);
-            if (course == null)
+            Course x = context.Courses.FirstOrDefault(m => m.Id == id);
+            x.ListCategory = context.Categories.ToList();
+            if (x == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(context.Categories, "Id", "Name", course.CategoryId);
-            return View(course);
+            return View(x);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,LecturerId,Place,DateTime,CategoryId")] Course course)
         {
             BigSchoolContext context = new BigSchoolContext();
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //    context.Entry(course).State = EntityState.Modified;
+            //    context.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //ViewBag.CategoryId = new SelectList(context.Categories, "Id", "Name", course.CategoryId);
+            //return View(course);
+            if (!ModelState.IsValid)
             {
-                context.Entry(course).State = EntityState.Modified;
-                context.SaveChanges();
-                return RedirectToAction("Index");
+                course.ListCategory = context.Categories.ToList();
+                return View("Edit", course);
+
             }
-            ViewBag.CategoryId = new SelectList(context.Categories, "Id", "Name", course.CategoryId);
-            return View(course);
+
+            context.Courses.AddOrUpdate(course);
+            context.SaveChanges();
+            return RedirectToAction("Mine");
         }
         public ActionResult Delete(int? id)
         {
@@ -121,6 +143,34 @@ namespace Buoi_4_Bai_BigSchool__.Controllers
             context.Courses.Remove(course);
             context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public ActionResult LectureIamGoing()
+        {
+            ApplicationUser currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()
+                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            BigSchoolContext context = new BigSchoolContext();
+
+            var listFollwee = context.Followings.Where(p => p.FollowerId == currentUser.Id).ToList();
+
+            var listAttendances = context.Attendances.Where(p => p.Attendee == currentUser.Id).ToList();
+
+            var courses = new List<Course>();
+
+            foreach(var course in listAttendances)
+            {
+                foreach(var item in listFollwee)
+                {
+                    if(item.FolloweeId == course.Course.LecturerId)
+                    {
+                        Course objCourse = course.Course;
+                        objCourse.LectureName = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()
+                            .FindById(objCourse.LecturerId).Name;
+                        courses.Add(objCourse);
+                    }
+                }
+            }
+            return View(courses);
         }
     }
 }
